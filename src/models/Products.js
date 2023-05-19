@@ -22,15 +22,19 @@ const productSchema = new mongoose.Schema(
     address: String,
     title: String,
     description: String,
-    district: String,
-    rentType: String,
+    cityName: Object,
+    areaName: Object,
+    division: Object,
+    districts: Object,
+    type: Object,
+    university: Object,
     amount: {
       type: Number,
-      required: true,
+      // required: true,
       min: [0, "Please input a valid amount"],
     },
     negotiable: Boolean,
-    img1:  {
+    img1: {
       type: String,
       required: true,
     },

@@ -9,18 +9,6 @@ exports.getProducts = async (req, res) => {
     res.status(400).send("Failed request");
   }
 };
-exports.getSpecificTypeProducts = async (req, res) => {
-  try {
-    // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
-    const rentType = req.params.rentType;
-    const productType = await Product.find({ rentType: rentType }).sort({
-      _id: -1,
-    });
-    res.send(productType);
-  } catch (error) {
-    res.status(400).send("Failed request");
-  }
-};
 
 exports.createProduct = async (req, res) => {
   try {
@@ -28,11 +16,62 @@ exports.createProduct = async (req, res) => {
     // const result = Product.create(req.body)
     // save method
     const postProduct = new Product(req.body);
+
     // akhane chaile j kono condition dewya jabe
     const result = await postProduct.save();
     res.status(200).send(result);
   } catch (error) {
+    res.send({
+      message: "Something went wrong!",
+    });
+  }
+};
+
+exports.filterPost = async (req, res) => {
+  try {
+    // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
+    const city = req.body.cityName;
+    const area = req.body.homePopularAreaName;
+    const type = req.body.filterModalValue;
+    const districts = req.body.districtsName;
+    const division = req.body.divisionNameEng;
+    const university = req.body.openModalValue;
+    const posts = await Product.find({
+      cityName: city,
+      areaName: area,
+      type: type,
+      districts: districts,
+      division: division,
+    }).sort({ _id: -1 });
+
+    // console.log(university, city, area, type);
+    res.status(200).json({
+      message: "success",
+      posts: posts,
+    });
+  } catch (error) {
     res.status(400).send("Failed request");
+  }
+};
+exports.getSpecificTypeProducts = async (req, res) => {
+  try {
+    // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
+    const rentType = req.params?.rentType;
+    const productType = await Product.find({ "type.eng": rentType }).sort({
+      _id: -1,
+    });
+    res.send(productType);
+  } catch (error) {
+    res.status(400).send("Failed request");
+  }
+};
+exports.getProfile = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const user = await Product.find({ email: email });
+    res.send(user);
+  } catch (error) {
+    res.status(400).send("No user found");
   }
 };
 

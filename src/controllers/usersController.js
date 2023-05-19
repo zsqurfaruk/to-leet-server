@@ -19,7 +19,7 @@ exports.signupPost = async (req, res) => {
     const result = await user.save();
     res.status(200).send(result);
   } catch (error) {
-    res.status(400).send("User Request Failed");
+    res.send("User Request Failed");
   }
 };
 
@@ -27,14 +27,14 @@ exports.signInPost = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(401).json({
+      return res.send({
         status: "failed",
         error: "Please provide your email and password.",
       });
     }
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({
+      return res.json({
         status: "failed",
         error: "No user found.",
       });
@@ -42,14 +42,14 @@ exports.signInPost = async (req, res) => {
     const isPasswordValid = user.comparePassword(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(403).json({
+      return res.json({
         status: "failed",
         error: "Email or Password is not correct.",
       });
     }
 
     if (user.status !== "active") {
-      return res.status(401).json({
+      return res.json({
         status: "failed",
         error: "Your account is not active, please contact admin.",
       });
