@@ -51,10 +51,17 @@ const usersSchema = new mongoose.Schema(
       minLength: [4, " Name must be at least 4 character"],
       maxLength: [55, "Name is too large"],
     },
+    agree: Boolean,
     status:{
       type: String,
-      default: "inactive",
+      default: "active",
       enum: ["active", "inactive", "blocked"]
+
+    },
+    role:{
+      type: String,
+      default: "user",
+      enum: ["admin", "moderator", "user"]
 
     },
     passwordChangedAt: Date,

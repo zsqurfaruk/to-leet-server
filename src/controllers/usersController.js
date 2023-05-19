@@ -19,24 +19,56 @@ exports.signupPost = async (req, res) => {
     const result = await user.save();
     res.status(200).send(result);
   } catch (error) {
-    res.send("User Request Failed");
+    res.status(400).send("User Request Failed");
   }
 };
 
+// exports.resetPass = async (req, res) => {
+//   try {
+//     const  abc = new User(req.body);
+//     console.log(abc)
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.json({
+//         status: "failed",
+//         error: "No user found.",
+//       });
+//     }
+
+//     const result = await User.updateOne({ email }, { $set: {password:password}});
+//     console.log(result);
+//     res.status(200).json({
+//       status: "success",
+//       message: "password update successful.",
+//       data: {
+//         result,
+//         user
+//       },
+//     });
+//   } catch (error) {
+//     res.send("Password can not changed");
+//   }
+// };
 exports.signInPost = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
       return res.send({
         status: "failed",
-        error: "Please provide your email and password.",
+        error: {
+          eng: "Please provide your email and password.",
+          ban: "আপনার ইমেল এবং পাসওয়ার্ড প্রদান করুন."
+        },
       });
     }
     const user = await User.findOne({ email });
     if (!user) {
       return res.json({
         status: "failed",
-        error: "No user found.",
+        error: {
+          eng:"No user found.",
+          ban:"কোন ইউজার পাওয়া যায় নাই।"
+        },
       });
     }
     const isPasswordValid = user.comparePassword(password, user.password);
@@ -44,14 +76,20 @@ exports.signInPost = async (req, res) => {
     if (!isPasswordValid) {
       return res.json({
         status: "failed",
-        error: "Email or Password is not correct.",
+        error: {
+          eng:"Email or Password is not correct.",
+          ban:"ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।"
+        },
       });
     }
 
     if (user.status !== "active") {
       return res.json({
         status: "failed",
-        error: "Your account is not active, please contact admin.",
+        error: {
+          eng:"Your account is not active, please contact admin.",
+          ban:"আপনার অ্যাকাউন্তটি অ্যাক্টিভ করতে এডমিনের সাথে যোগাযোগ করুন।"
+        },
       });
     }
     const token = generateToken(user);
@@ -71,7 +109,7 @@ exports.signInPost = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).send("User sign in Request Failed");
+    res.send("User sign in Request Failed");
   }
 };
 
