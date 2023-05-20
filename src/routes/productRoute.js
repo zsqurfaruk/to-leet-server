@@ -25,9 +25,7 @@ router
   .get(productController.getProducts)
   .post(productController.createProduct);
 
-
-  
-router.route("/filter").post(productController.filterPost);
+router.route("/filter").get(productController.filterPost);
 router.get("/user/email/:email", productController.getProfile);
 router
   .route("/rentType/:rentType")

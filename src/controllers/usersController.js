@@ -1,5 +1,6 @@
 const User = require("../models/Users");
 const { generateToken } = require("../utils/token");
+const bcrypt = require("bcryptjs");
 
 exports.signupGet = async (req, res) => {
   try {
@@ -23,32 +24,46 @@ exports.signupPost = async (req, res) => {
   }
 };
 
-// exports.resetPass = async (req, res) => {
-//   try {
-//     const  abc = new User(req.body);
-//     console.log(abc)
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.json({
-//         status: "failed",
-//         error: "No user found.",
-//       });
-//     }
+exports.resetPass = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.json({
+        status: "failed",
+        error: {
+          eng: "No user found.",
+          ban: "কোন ইউজার পাওয়া যায় নাই।",
+        },
+      });
+    }
+    const pass = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    if (confirmPassword !== pass) {
+      return res.json({
+        status: "failed",
+        error: {
+          eng: "Password matching error.",
+          ban: "পাসওয়ার্ডে ত্রুটি আছে.",
+        },
+      });
+    }
+    const password = securePass(pass);
+   
 
-//     const result = await User.updateOne({ email }, { $set: {password:password}});
-//     console.log(result);
-//     res.status(200).json({
-//       status: "success",
-//       message: "password update successful.",
-//       data: {
-//         result,
-//         user
-//       },
-//     });
-//   } catch (error) {
-//     res.send("Password can not changed");
-//   }
-// };
+    const result = await User.updateOne(
+      { email },
+      { $set: { password: password } }
+    );
+
+    res.status(200).json({
+      status: "success",
+      message: "password update successful.",
+    });
+  } catch (error) {
+    res.send("Password can not changed");
+  }
+};
 exports.signInPost = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -57,7 +72,7 @@ exports.signInPost = async (req, res) => {
         status: "failed",
         error: {
           eng: "Please provide your email and password.",
-          ban: "আপনার ইমেল এবং পাসওয়ার্ড প্রদান করুন."
+          ban: "আপনার ইমেল এবং পাসওয়ার্ড প্রদান করুন.",
         },
       });
     }
@@ -66,8 +81,8 @@ exports.signInPost = async (req, res) => {
       return res.json({
         status: "failed",
         error: {
-          eng:"No user found.",
-          ban:"কোন ইউজার পাওয়া যায় নাই।"
+          eng: "No user found.",
+          ban: "কোন ইউজার পাওয়া যায় নাই।",
         },
       });
     }
@@ -77,8 +92,8 @@ exports.signInPost = async (req, res) => {
       return res.json({
         status: "failed",
         error: {
-          eng:"Email or Password is not correct.",
-          ban:"ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।"
+          eng: "Email or Password is not correct.",
+          ban: "ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।",
         },
       });
     }
@@ -87,8 +102,8 @@ exports.signInPost = async (req, res) => {
       return res.json({
         status: "failed",
         error: {
-          eng:"Your account is not active, please contact admin.",
-          ban:"আপনার অ্যাকাউন্তটি অ্যাক্টিভ করতে এডমিনের সাথে যোগাযোগ করুন।"
+          eng: "Your account is not active, please contact admin.",
+          ban: "আপনার অ্যাকাউন্তটি অ্যাক্টিভ করতে এডমিনের সাথে যোগাযোগ করুন।",
         },
       });
     }
@@ -118,16 +133,34 @@ exports.getMe = async (req, res) => {
     const email = req.user?.email;
     const user = await User.findOne({ email });
     const { password: pwd, ...others } = user.toObject();
-    const newUser = others
+    const newUser = others;
     // res.status(200).json({
     //   status: "success",
     //   data: newUser,
     // });
-    res.send(newUser)
+    res.send(newUser);
   } catch (error) {
     res.status(400).send("User not found, Please log in first");
   }
 };
+
+// const forgetPass = async (password) => {
+//   try {
+//     const passHash = await bcrypt.hashSync(password);
+//     return passHash;
+//   } catch (error) {
+//     console.log("User not found, Please log in first");
+//   }
+// };
+
+function securePass(password) {
+  try {
+    const hashPassword = bcrypt.hashSync(password);
+    return hashPassword;
+  } catch (error) {
+    console.log("User not found, Please log in first");
+  }
+}
 // exports.logout = async (req, res) => {
 //   try {
 //     // clear the user's session and/or token
