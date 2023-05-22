@@ -49,7 +49,6 @@ exports.resetPass = async (req, res) => {
       });
     }
     const password = securePass(pass);
-   
 
     const result = await User.updateOne(
       { email },
@@ -144,15 +143,6 @@ exports.getMe = async (req, res) => {
   }
 };
 
-// const forgetPass = async (password) => {
-//   try {
-//     const passHash = await bcrypt.hashSync(password);
-//     return passHash;
-//   } catch (error) {
-//     console.log("User not found, Please log in first");
-//   }
-// };
-
 function securePass(password) {
   try {
     const hashPassword = bcrypt.hashSync(password);
@@ -161,21 +151,3 @@ function securePass(password) {
     console.log("User not found, Please log in first");
   }
 }
-// exports.logout = async (req, res) => {
-//   try {
-//     // clear the user's session and/or token
-//     req.session.destroy(); // example for session-based authentication
-//     // or req.user.token = null; // example for token-based authentication
-
-//     // update the user's status to logged out in the database
-//     const updatedUser = await User.findByIdAndUpdate(
-//       req.user._id,
-//       { isLoggedIn: false },
-//       { new: true }
-//     );
-//     res.status(200).send("Successfully logged out");
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Error logging out");
-//   }
-// };

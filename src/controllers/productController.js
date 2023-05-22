@@ -19,7 +19,10 @@ exports.createProduct = async (req, res) => {
 
     // akhane chaile j kono condition dewya jabe
     const result = await postProduct.save();
-    res.status(200).send(result);
+    res.status(200).json({
+      message: "success",
+      result
+    });
   } catch (error) {
     res.send({
       message: "Something went wrong!",
@@ -45,7 +48,7 @@ exports.filterPost = async (req, res) => {
       division: division,
     }).sort({ _id: -1 });
 
-    console.log(filter);
+    // console.log(filter);
     console.log(req.query);
     // console.log( req.params );
     res.status(200).json({
