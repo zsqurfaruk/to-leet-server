@@ -148,6 +148,6 @@ function securePass(password) {
     const hashPassword = bcrypt.hashSync(password);
     return hashPassword;
   } catch (error) {
-    console.log("User not found, Please log in first");
+     res.status("User not found, Please log in first");
   }
 }

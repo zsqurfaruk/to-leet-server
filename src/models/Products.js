@@ -2,30 +2,12 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
   {
-    bedrooms: {
-      type: Number,
-      min: [0, "Please input a valid amount"],
-    },
-    // bedroomBan: {
-    //   type: Number,
-    //   min: [0, "Please input a valid amount"],
-    // },
-    bedNumber: {
-      type: Number,
-      min: [0, "Please input a valid amount"],
-    },
-    // bedNumberBan: {
-    //   type: Number,
-    //   min: [0, "Please input a valid amount"],
-    // },
-    bathrooms: {
-      type: Number,
-      min: [0, "Please input a valid amount"],
-    },
-    // bathroomBan: {
-    //   type: Number,
-    //   min: [0, "Please input a valid amount"],
-    // },
+    bedrooms: Object,
+   
+    bedNumber: Object,
+    
+    bathrooms: Object,
+ 
     wifiBan: {
       type: String,
       // required:true,

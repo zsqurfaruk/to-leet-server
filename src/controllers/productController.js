@@ -25,10 +25,11 @@ exports.createProduct = async (req, res) => {
     });
   } catch (error) {
     res.send({
-      message: "Something went wrong!",
+      error: "Something went wrong!",
     });
   }
 };
+
 
 exports.filterPost = async (req, res) => {
   try {
@@ -38,8 +39,6 @@ exports.filterPost = async (req, res) => {
     const type = req.query.filterModalValue;
     const districts = req.query.districtsName;
     const division = req.query.divisionNameEng;
-    const university = req.query.openModalValue;
-    const filter = req.query.filterValue;
     const posts = await Product.find({
       cityName: city,
       areaName: area,
@@ -49,7 +48,7 @@ exports.filterPost = async (req, res) => {
     }).sort({ _id: -1 });
 
     // console.log(filter);
-    console.log(req.query);
+    // console.log(req.query);
     // console.log( req.params );
     res.status(200).json({
       message: "success",
@@ -99,6 +98,6 @@ exports.deleteProduct = async (req, res) => {
       message: "success",
     });
   } catch (error) {
-    console.log(error);
+    res.send(error);
   }
 };
