@@ -107,9 +107,7 @@ exports.signInPost = async (req, res) => {
       });
     }
     const token = generateToken(user);
-    // if(token){
-    //   localStorage.setItem("token", token)
-    // }
+  
 
     const { password: pwd, ...others } = user.toObject();
 
