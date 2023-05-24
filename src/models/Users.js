@@ -19,6 +19,7 @@ const usersSchema = new mongoose.Schema(
         validator: (value) =>
           validator.isStrongPassword(value, {
             minLength: 6,
+            
           }),
         message: "Password{VALUE} is not strong enough.",
       },
@@ -60,7 +61,7 @@ const usersSchema = new mongoose.Schema(
       enum: ["admin", "moderator", "user"]
 
     },
-    agree: Boolean,
+  
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

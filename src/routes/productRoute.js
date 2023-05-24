@@ -6,7 +6,7 @@ router
   .route("/")
   .get(productController.getProducts)
   .post(productController.createProduct);
-
+router.route("/category").get(productController.getCategoryCount)
 router.route("/filter").get(productController.filterPost);
 router.get("/user/email/:email", productController.getProfile);
 router

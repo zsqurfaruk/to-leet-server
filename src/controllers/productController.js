@@ -101,3 +101,33 @@ exports.deleteProduct = async (req, res) => {
     res.send(error);
   }
 };
+
+
+exports.getCategoryCount = async (req, res)=>{
+  try {
+ 
+    const countProduct = await Product.aggregate([
+      {
+        $group:{
+           _id: "$type",
+           count:{
+            $count:{}
+           }
+        }
+      },
+      {
+       $project:{
+        _id:0,
+        type:"$_id",
+        count:1
+       }
+      }
+    ]);
+    res.status(200).json({
+      message: "success",
+      countProduct
+    });
+  } catch (error) {
+    res.send(error);
+  }
+}

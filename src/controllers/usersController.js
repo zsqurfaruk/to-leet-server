@@ -17,10 +17,13 @@ exports.signupGet = async (req, res) => {
 exports.signupPost = async (req, res) => {
   try {
     const user = new User(req.body);
+    console.log(user)
     const result = await user.save();
     res.status(200).send(result);
   } catch (error) {
-    res.status(400).send("User Request Failed");
+    res.status(400).send({
+      message: error
+    });
   }
 };
 
