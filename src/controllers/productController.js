@@ -34,11 +34,11 @@ exports.createProduct = async (req, res) => {
 exports.filterPost = async (req, res) => {
   try {
     // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
-    const city = req.query.cityName;
-    const area = req.query.homePopularAreaName;
-    const type = req.query.filterModalValue;
-    const districts = req.query.districtsName;
-    const division = req.query.divisionNameEng;
+    const city = req.body.cityName;
+    const area = req.body.homePopularAreaName;
+    const type = req.body.filterModalValue;
+    const districts = req.body.districtsName;
+    const division = req.body.divisionNameEng;
     const posts = await Product.find({
       cityName: city,
       areaName: area,
@@ -47,8 +47,8 @@ exports.filterPost = async (req, res) => {
       division: division,
     }).sort({ _id: -1 });
 
-    // console.log(filter);
-    // console.log(req.query);
+    // console.log(city);
+    // console.log(req.body);
     // console.log( req.params );
     res.status(200).json({
       message: "success",
