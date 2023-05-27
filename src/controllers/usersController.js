@@ -20,7 +20,7 @@ exports.signupPost = async (req, res) => {
     const result = await user.save();
     res.status(200).send(result);
   } catch (error) {
-    res.status(400).send({
+    res.send({
       message: "error"
     });
   }
@@ -139,7 +139,7 @@ exports.getMe = async (req, res) => {
     // });
     res.send(newUser);
   } catch (error) {
-    res.status(400).send("User not found, Please log in first");
+    res.send("User not found, Please log in first");
   }
 };
 

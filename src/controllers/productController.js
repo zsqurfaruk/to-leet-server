@@ -6,7 +6,7 @@ exports.getProducts = async (req, res) => {
     const products = await Product.find({}).sort({ _id: -1 });
     res.send(products);
   } catch (error) {
-    res.status(400).send("Failed request");
+    res.send("Failed request");
   }
 };
 
@@ -55,7 +55,7 @@ exports.filterPost = async (req, res) => {
       posts: posts,
     });
   } catch (error) {
-    res.status(400).send("Failed request");
+    res.send("Failed request");
   }
 };
 exports.getSpecificTypeProducts = async (req, res) => {
@@ -67,7 +67,7 @@ exports.getSpecificTypeProducts = async (req, res) => {
     });
     res.send(productType);
   } catch (error) {
-    res.status(400).send("Failed request");
+    res.send("Failed request");
   }
 };
 exports.getProfile = async (req, res) => {
@@ -76,7 +76,7 @@ exports.getProfile = async (req, res) => {
     const user = await Product.find({ email: email });
     res.send(user);
   } catch (error) {
-    res.status(400).send("No user found");
+    res.send("No user found");
   }
 };
 
@@ -86,7 +86,7 @@ exports.getProductDetails = async (req, res) => {
     const productDetails = await Product.findOne({ _id: id });
     res.send(productDetails);
   } catch (error) {
-    res.status(400).send("Failed request");
+    res.send("Failed request");
   }
 };
 
@@ -128,6 +128,6 @@ exports.getCategoryCount = async (req, res)=>{
       countProduct
     });
   } catch (error) {
-    res.send(error);
+    res.send("error");
   }
 }
