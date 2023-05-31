@@ -3,21 +3,17 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema(
   {
     bedrooms: Object,
-   
+
     bedNumber: Object,
-    
+
     bathrooms: Object,
- 
-    wifiBan: {
-      type: String,
-      // required:true,
-      min: ["Please input a valid amount"],
-    },
-    wifiEng: {
-      type: String,
-      // required:true,
-      min: ["Please input a valid amount"],
-    },
+
+    wifi: Object,
+    // wifiEng: {
+    //   type: String,
+    //   // required:true,
+    //   min: ["Please input a valid amount"],
+    // },
     unit: String,
     address: String,
     title: String,
