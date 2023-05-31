@@ -33,7 +33,7 @@ const productSchema = new mongoose.Schema(
     email: String || Number,
     phone: {
       type: Number,
-      // required: true,
+      required: true,
       min: [0, "Please input a valid Phone Number"],
     },
     terms: Boolean,
