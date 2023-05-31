@@ -7,13 +7,7 @@ const productSchema = new mongoose.Schema(
     bedNumber: Object,
 
     bathrooms: Object,
-
     wifi: Object,
-    // wifiEng: {
-    //   type: String,
-    //   // required:true,
-    //   min: ["Please input a valid amount"],
-    // },
     unit: String,
     address: String,
     title: String,
@@ -26,7 +20,7 @@ const productSchema = new mongoose.Schema(
     university: Object,
     amount: {
       type: Number,
-      // required: true,
+     
       min: [0, "Please input a valid amount"],
     },
     negotiable: Boolean,
