@@ -3,11 +3,9 @@ const mongoose = require("mongoose");
 const productSchema = new mongoose.Schema(
   {
     bedrooms: Object,
-
     bedNumber: Object,
-
     bathrooms: Object,
-    wifi: Object,
+    wifiFacility: Object,
     unit: String,
     address: String,
     title: String,
@@ -20,7 +18,6 @@ const productSchema = new mongoose.Schema(
     university: Object,
     amount: {
       type: Number,
-     
       min: [0, "Please input a valid amount"],
     },
     negotiable: Boolean,
