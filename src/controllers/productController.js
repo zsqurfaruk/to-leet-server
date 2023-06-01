@@ -95,12 +95,6 @@ exports.updateProduct = async (req, res) => {
     const id = req.params.id;
     const updateProduct = await Product.updateOne({ _id: id }, 
       { $set: {available: true}}, {runValidators:true});
-    
-//  update korara onno akta way 
-// ----------------------------
-    // const product =await Product.findById({_id: id})
-    // const result = await product.$set({available: {eng:"Booked", ban:"ভাড়া হয়েছে।"}}).save()
-
     res.status(200).json({
       message: "success",
     });
