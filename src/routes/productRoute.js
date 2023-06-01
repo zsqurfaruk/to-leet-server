@@ -8,6 +8,7 @@ router
   .post(productController.createProduct);
 router.route("/filter").post(productController.filterPost);
 router.route("/category/type").get(productController.getCategoryCount);
+router.route("/update/available/:id").patch(productController.updateProduct);
 router.get("/user/email/:email", productController.getProfile);
 router
   .route("/rentType/:rentType")

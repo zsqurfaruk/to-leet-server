@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema(
     districts: Object,
     type: Object,
     university: Object,
+    available: Boolean,
     amount: {
       type: Number,
       min: [0, "Please input a valid amount"],

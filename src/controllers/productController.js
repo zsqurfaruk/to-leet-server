@@ -90,6 +90,24 @@ exports.getProductDetails = async (req, res) => {
   }
 };
 
+exports.updateProduct = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateProduct = await Product.updateOne({ _id: id }, 
+      { $set: {available: true}}, {runValidators:true});
+    
+//  update korara onno akta way 
+// ----------------------------
+    // const product =await Product.findById({_id: id})
+    // const result = await product.$set({available: {eng:"Booked", ban:"ভাড়া হয়েছে।"}}).save()
+
+    res.status(200).json({
+      message: "success",
+    });
+  } catch (error) {
+    res.send("error");
+  }
+};
 exports.deleteProduct = async (req, res) => {
   try {
     const id = req.params.id;
@@ -98,7 +116,7 @@ exports.deleteProduct = async (req, res) => {
       message: "success",
     });
   } catch (error) {
-    res.send(error);
+    res.send("error");
   }
 };
 
