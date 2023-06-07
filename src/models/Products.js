@@ -4,6 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     bedrooms: Object,
     bedNumber: Object,
+    totalBed: Object,
     bathrooms: Object,
     wifiFacility: Object,
     unit: String,

@@ -1,3 +1,7 @@
 node_modules
 .env
 .vercel
+
+
+
+# DATABASE=mongodb+srv://zsqur-to-leet:mFp9qDKgkH5zDEq7Ff96ytr2Nbbp2lE@to-leet.8puvymi.mongodb.net/

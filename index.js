@@ -10,7 +10,6 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 dbConnect();
-
 app.use("/api/v1/product", productRoute);
 
 app.use("/api/v1/users", usersRoute);

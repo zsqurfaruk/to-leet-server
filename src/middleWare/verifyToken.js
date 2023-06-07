@@ -5,16 +5,16 @@ module.exports = async (req, res, next) => {
   try {
     const token = req.headers?.authorization?.split(" ")?.[1];
     if (!token) {
-      return res.status(401).json({
+      return res.json({
         status: "failed",
-        error: "Sorry! User not found",
+        message: "Sorry! You are not authorized.",
       });
     }
     const decoded = await promisify(jwt.verify)(token, process.env.TOKEN);
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(403).json({
+    res.json({
       status: "failed",
       error: "Invalid token",
     });

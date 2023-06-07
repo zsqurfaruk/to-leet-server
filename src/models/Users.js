@@ -58,10 +58,10 @@ const usersSchema = new mongoose.Schema(
     role:{
       type: String,
       default: "user",
-      enum: ["admin", "moderator", "user"]
+      enum: ["admin", "moderator", "user","seller"]
 
     },
-  
+    ToLeet: String,
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

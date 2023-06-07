@@ -4,7 +4,48 @@ exports.getProducts = async (req, res) => {
   try {
     // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
     const products = await Product.find({}).sort({ _id: -1 });
-    res.send(products);
+    const projection = products.map(
+      ({
+        _id,
+        bedrooms,
+        bathrooms,
+        bedNumber,
+        totalBed,
+        title,
+        description,
+        cityName,
+        areaName,
+        districts,
+        division,
+        type,
+        amount,
+        negotiable,
+        img1,
+        updatedAt,
+        available,
+        university,
+      }) => ({
+        _id,
+        bedrooms,
+        bathrooms,
+        bedNumber,
+        totalBed,
+        title,
+        description,
+        cityName,
+        areaName,
+        districts,
+        division,
+        type,
+        amount,
+        negotiable,
+        img1,
+        updatedAt,
+        available,
+        university,
+      })
+    );
+    res.send(projection);
   } catch (error) {
     res.send("Failed request");
   }
@@ -21,7 +62,7 @@ exports.createProduct = async (req, res) => {
     const result = await postProduct.save();
     res.status(200).json({
       message: "success",
-      result
+      result,
     });
   } catch (error) {
     res.send({
@@ -29,7 +70,6 @@ exports.createProduct = async (req, res) => {
     });
   }
 };
-
 
 exports.filterPost = async (req, res) => {
   try {
@@ -46,13 +86,51 @@ exports.filterPost = async (req, res) => {
       districts: districts,
       division: division,
     }).sort({ _id: -1 });
+    const projection = posts.map(
+      ({
+        _id,
+        bedrooms,
+        bathrooms,
+        bedNumber,
+        totalBed,
+        title,
+        description,
+        cityName,
+        areaName,
+        districts,
+        division,
+        type,
+        amount,
+        negotiable,
+        img1,
+        updatedAt,
+        available,
+        university,
+      }) => ({
+        _id,
+        bedrooms,
+        bathrooms,
+        bedNumber,
+        totalBed,
+        title,
+        description,
+        cityName,
+        areaName,
+        districts,
+        division,
+        type,
+        amount,
+        negotiable,
+        img1,
+        updatedAt,
+        available,
+        university,
+      })
+    );
 
-    // console.log(city);
-    // console.log(req.body);
-    // console.log( req.params );
     res.status(200).json({
       message: "success",
-      posts: posts,
+      posts: projection,
     });
   } catch (error) {
     res.send("Failed request");
@@ -65,7 +143,49 @@ exports.getSpecificTypeProducts = async (req, res) => {
     const productType = await Product.find({ "type.eng": rentType }).sort({
       _id: -1,
     });
-    res.send(productType);
+    const projection = productType.map(
+      ({
+        _id,
+        bedrooms,
+        bathrooms,
+        bedNumber,
+        totalBed,
+        title,
+        description,
+        cityName,
+        areaName,
+        districts,
+        division,
+        type,
+        amount,
+        negotiable,
+        img1,
+        updatedAt,
+        available,
+        university,
+      }) => ({
+        _id,
+        bedrooms,
+        bathrooms,
+        bedNumber,
+        totalBed,
+        title,
+        description,
+        cityName,
+        areaName,
+        districts,
+        division,
+        type,
+        amount,
+        negotiable,
+        img1,
+        updatedAt,
+        available,
+        university,
+      })
+    );
+
+    res.send(projection);
   } catch (error) {
     res.send("Failed request");
   }
@@ -73,7 +193,9 @@ exports.getSpecificTypeProducts = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
     const email = req.params.email;
-    const user = await Product.find({ email: email });
+    const user = await Product.find({ email: email }).sort({
+      _id: -1,
+    });
     res.send(user);
   } catch (error) {
     res.send("No user found");
@@ -84,7 +206,8 @@ exports.getProductDetails = async (req, res) => {
   try {
     const id = req.params.id;
     const productDetails = await Product.findOne({ _id: id });
-    res.send(productDetails);
+    const { _id, name, email, ...others } = productDetails.toObject();
+    res.send(others);
   } catch (error) {
     res.send("Failed request");
   }
@@ -93,13 +216,16 @@ exports.getProductDetails = async (req, res) => {
 exports.updateProduct = async (req, res) => {
   try {
     const id = req.params.id;
-    const updateProduct = await Product.updateOne({ _id: id }, 
-      { $set: {available: true}}, {runValidators:true});
+    const updateProduct = await Product.updateOne(
+      { _id: id },
+      { $set: { available: true } },
+      { runValidators: true }
+    );
     res.status(200).json({
       message: "success",
     });
   } catch (error) {
-    res.send("error");
+    res.send("Internal server error");
   }
 };
 exports.deleteProduct = async (req, res) => {
@@ -110,36 +236,34 @@ exports.deleteProduct = async (req, res) => {
       message: "success",
     });
   } catch (error) {
-    res.send("error");
+    res.send("Internal server error");
   }
 };
 
-
-exports.getCategoryCount = async (req, res)=>{
+exports.getCategoryCount = async (req, res) => {
   try {
- 
     const countProduct = await Product.aggregate([
       {
-        $group:{
-           _id: "$type",
-           count:{
-            $count:{}
-           }
-        }
+        $group: {
+          _id: "$type",
+          count: {
+            $count: {},
+          },
+        },
       },
       {
-       $project:{
-        _id:0,
-        type:"$_id",
-        count:1
-       }
-      }
+        $project: {
+          _id: 0,
+          type: "$_id",
+          count: 1,
+        },
+      },
     ]);
     res.status(200).json({
       message: "success",
-      countProduct
+      countProduct,
     });
   } catch (error) {
-    res.send("error");
+    res.send("Internal server error");
   }
-}
+};

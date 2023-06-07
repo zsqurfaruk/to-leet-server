@@ -4,14 +4,11 @@ const bcrypt = require("bcryptjs");
 
 exports.signupGet = async (req, res) => {
   try {
-    const users = await User.find({}).sort({ _id: -1 });
-    // const { password: pwd, ...others } = users[0].toObject();
-    res.status(200).json({
-      status: "success",
-      data: users,
-    });
+    const getUsers = await User.find({});
+    const projection = getUsers.map(({ ToLeet }) => ({ ToLeet }));
+    res.send(projection);
   } catch (error) {
-    res.status(400).send("Failed request");
+    res.send("Internal server error");
   }
 };
 exports.signupPost = async (req, res) => {
@@ -21,7 +18,7 @@ exports.signupPost = async (req, res) => {
     res.status(200).send(result);
   } catch (error) {
     res.send({
-      message: "error"
+      message: "Internal server error",
     });
   }
 };
@@ -78,6 +75,7 @@ exports.signInPost = async (req, res) => {
       });
     }
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.json({
         status: "failed",
@@ -109,9 +107,14 @@ exports.signInPost = async (req, res) => {
       });
     }
     const token = generateToken(user);
-  
-
-    const { password: pwd, ...others } = user.toObject();
+    const {
+      password: pwd,
+      ToLeet,
+      updatedAt,
+      createdAt,
+      agree,
+      ...others
+    } = user.toObject();
 
     // const result = await user.save();
     res.status(200).json({
@@ -131,7 +134,19 @@ exports.getMe = async (req, res) => {
   try {
     const email = req.user?.email;
     const user = await User.findOne({ email });
-    const { password: pwd, ...others } = user.toObject();
+    const {
+      password: pwd,
+      _id,
+      role,
+      ToLeet,
+      token,
+      firstName,
+      lastName,
+      agree,
+      updatedAt,
+      createdAt,
+      ...others
+    } = user.toObject();
     const newUser = others;
     // res.status(200).json({
     //   status: "success",
@@ -148,6 +163,6 @@ function securePass(password) {
     const hashPassword = bcrypt.hashSync(password);
     return hashPassword;
   } catch (error) {
-     res.status("User not found, Please log in first");
+    res.status("User not found, Please log in first");
   }
 }
