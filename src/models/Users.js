@@ -15,14 +15,14 @@ const usersSchema = new mongoose.Schema(
     password: {
       type: String || Number,
       required: [true, "Password is required"],
-      validate: {
-        validator: (value) =>
-          validator.isStrongPassword(value, {
-            minLength: 6,
+      // validate: {
+      //   validator: (value) =>
+      //     validator.isStrongPassword(value, {
+      //       minLength: 6,
             
-          }),
-        message: "Password{VALUE} is not strong enough.",
-      },
+      //     }),
+      //   message: "Password{VALUE} is not strong enough.",
+      // },
     },
     confirmPassword: {
       type: String || Number,
