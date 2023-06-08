@@ -7,7 +7,6 @@ const productSchema = new mongoose.Schema(
     totalBed: Object,
     bathrooms: Object,
     wifiFacility: Object,
-    unit: String,
     address: String,
     title: String,
     description: String,
