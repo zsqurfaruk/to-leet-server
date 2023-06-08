@@ -19,6 +19,7 @@ const productSchema = new mongoose.Schema(
     available: Boolean,
     amount: {
       type: Number,
+      required: true,
       min: [0, "Please input a valid amount"],
     },
     negotiable: Boolean,
