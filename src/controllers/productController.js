@@ -192,13 +192,24 @@ exports.getSpecificTypeProducts = async (req, res) => {
 };
 exports.getProfile = async (req, res) => {
   try {
-    const email = req.params.email;
-    const user = await Product.find({ email: email }).sort({
-      _id: -1,
-    });
+    const auth = req.params.email;
+    const phoneNumber = Number(auth); 
+    let user;
+
+    if (!isNaN(phoneNumber)) {
+      user = await Product.find(
+        { $or: [{ email: auth }, { phone: phoneNumber }] },
+        { email: 0, _id: 0 }
+      ).sort({ _id: -1 });
+    } else {
+      user = await Product.find({ email: auth }, { email: 0, _id: 0 }).sort({
+        _id: -1,
+      });
+    }
+
     res.send(user);
   } catch (error) {
-    res.send("No user found");
+    res.send("No data found");
   }
 };
 

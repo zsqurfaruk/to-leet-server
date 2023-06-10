@@ -69,8 +69,8 @@ exports.signInPost = async (req, res) => {
       return res.send({
         status: "failed",
         error: {
-          eng: "Please provide your email and password.",
-          ban: "আপনার ইমেল এবং পাসওয়ার্ড প্রদান করুন.",
+          eng: "Please provide your  mobile number or email  and password.",
+          ban: "আপনার মোবাইল নাম্বার বা ইমেল এবং পাসওয়ার্ড প্রদান করুন.",
         },
       });
     }
@@ -91,8 +91,8 @@ exports.signInPost = async (req, res) => {
       return res.json({
         status: "failed",
         error: {
-          eng: "Email or Password is not correct.",
-          ban: "ইমেইল অথবা পাসওয়ার্ড ভুল দিয়েছেন।",
+          eng: "Mobile number or Email or Password is not correct.",
+          ban: "ইমেইল বা মোবাইল নাম্বার অথবা পাসওয়ার্ড ভুল দিয়েছেন।",
         },
       });
     }

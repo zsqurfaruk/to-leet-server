@@ -38,11 +38,12 @@ const productSchema = new mongoose.Schema(
     img4: String,
     img5: String,
     name: String,
-    email: String || Number,
+    email: {
+      type: String || Number
+    },
     phone: {
       type: Number,
-      required: true,
-      min: [0, "Please input a valid Phone Number"],
+      min: [0, "Please input a valid Mobile Number"],
     },
     terms: Boolean,
   },

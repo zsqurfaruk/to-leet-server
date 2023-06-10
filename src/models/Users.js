@@ -5,8 +5,8 @@ const bcrypt = require("bcryptjs");
 const usersSchema = new mongoose.Schema(
   {
     email: {
-      type: String,
-      validate: [validator.isEmail, "Provide a valid email"],
+      type: String || Number,
+      // validate: [validator.isEmail, "Provide a valid email"],
       trim: true,
       lowercase: true,
       unique: true,
@@ -38,14 +38,14 @@ const usersSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide first name"],
       trim: true,
-      minLength: [4, " Name must be at least 4 character"],
+      minLength: [3, " Name must be at least 3 character"],
       maxLength: [55, "name is too large"],
     },
     lastName: {
       type: String,
       required: [true, "Please provide last name"],
       trim: true,
-      minLength: [4, " Name must be at least 4 character"],
+      minLength: [3, " Name must be at least 3 character"],
       maxLength: [55, "Name is too large"],
     },
     agree: Boolean,
