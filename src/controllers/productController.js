@@ -199,7 +199,7 @@ exports.getProfile = async (req, res) => {
     if (!isNaN(phoneNumber)) {
       user = await Product.find(
         { $or: [{ email: auth }, { phone: phoneNumber }] },
-        { email: 0, _id: 0 }
+        { email: 0, firstName: 0, lastName:0}
       ).sort({ _id: -1 });
     } else {
       user = await Product.find({ email: auth }, { email: 0,  firstName: 0, lastName:0 }).sort({
