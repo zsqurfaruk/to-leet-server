@@ -12,7 +12,6 @@ exports.getProducts = async (req, res) => {
         bedNumber,
         totalBed,
         title,
-        description,
         cityName,
         areaName,
         districts,
@@ -31,7 +30,6 @@ exports.getProducts = async (req, res) => {
         bedNumber,
         totalBed,
         title,
-        description,
         cityName,
         areaName,
         districts,
@@ -94,7 +92,6 @@ exports.filterPost = async (req, res) => {
         bedNumber,
         totalBed,
         title,
-        description,
         cityName,
         areaName,
         districts,
@@ -113,7 +110,6 @@ exports.filterPost = async (req, res) => {
         bedNumber,
         totalBed,
         title,
-        description,
         cityName,
         areaName,
         districts,
@@ -151,7 +147,6 @@ exports.getSpecificTypeProducts = async (req, res) => {
         bedNumber,
         totalBed,
         title,
-        description,
         cityName,
         areaName,
         districts,
@@ -170,7 +165,6 @@ exports.getSpecificTypeProducts = async (req, res) => {
         bedNumber,
         totalBed,
         title,
-        description,
         cityName,
         areaName,
         districts,
@@ -193,16 +187,19 @@ exports.getSpecificTypeProducts = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
     const auth = req.params.email;
-    const phoneNumber = Number(auth); 
+    const phoneNumber = Number(auth);
     let user;
 
     if (!isNaN(phoneNumber)) {
       user = await Product.find(
         { $or: [{ email: auth }, { phone: phoneNumber }] },
-        { email: 0, firstName: 0, lastName:0}
+        { email: 0, firstName: 0, lastName: 0 }
       ).sort({ _id: -1 });
     } else {
-      user = await Product.find({ email: auth }, { email: 0,  firstName: 0, lastName:0 }).sort({
+      user = await Product.find(
+        { email: auth },
+        { email: 0, firstName: 0, lastName: 0 }
+      ).sort({
         _id: -1,
       });
     }
@@ -217,7 +214,7 @@ exports.getProductDetails = async (req, res) => {
   try {
     const id = req.params.id;
     const productDetails = await Product.findOne({ _id: id });
-    const { _id, name, email, ...others } = productDetails.toObject();
+    const { name, email, ...others } = productDetails.toObject();
     res.send(others);
   } catch (error) {
     res.send("Failed request");

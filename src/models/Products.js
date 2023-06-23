@@ -48,10 +48,17 @@ const productSchema = new mongoose.Schema(
       min: [0, "Please input a valid Mobile Number"],
     },
     terms: Boolean,
+    field: {
+      type: String,
+      index: true, // Create index on the 'field' field
+      unique: true, // Set 'unique' option if needed
+      sparse: true, // Set 'sparse' option if needed
+    },
   },
   {
     timestamps: true,
   }
+  
 );
 
 const Product = mongoose.model("Product", productSchema);
