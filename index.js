@@ -15,7 +15,7 @@ app.use("/api/v1/product", productRoute);
 app.use("/api/v1/users", usersRoute);
 
 app.get("/", (req, res) => {
-  res.send("To leet start");
+  res.send("QuickVara start");
 });
 
 app.listen(port, () => {

@@ -61,7 +61,7 @@ const usersSchema = new mongoose.Schema(
       enum: ["admin", "moderator", "user","seller"]
 
     },
-    ToLeet: String,
+    QuickVara: String,
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,

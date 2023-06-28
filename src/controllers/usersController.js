@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 exports.signupGet = async (req, res) => {
   try {
     const getUsers = await User.find({});
-    const projection = getUsers.map(({ ToLeet }) => ({ ToLeet }));
+    const projection = getUsers.map(({ QuickVara }) => ({ QuickVara }));
     res.send(projection);
   } catch (error) {
     res.send("Internal server error");
@@ -109,7 +109,7 @@ exports.signInPost = async (req, res) => {
     const token = generateToken(user);
     const {
       password: pwd,
-      ToLeet,
+      QuickVara,
       updatedAt,
       createdAt,
       agree,
@@ -138,7 +138,7 @@ exports.getMe = async (req, res) => {
       password: pwd,
       _id,
       role,
-      ToLeet,
+      QuickVara,
       token,
       firstName,
       lastName,
