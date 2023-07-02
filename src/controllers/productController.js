@@ -72,18 +72,32 @@ exports.createProduct = async (req, res) => {
 exports.filterPost = async (req, res) => {
   try {
     // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
+    const limit = req.query.limit
     const city = req.body.cityName;
     const area = req.body.homePopularAreaName;
     const type = req.body.filterModalValue;
     const districts = req.body.districtsName;
     const division = req.body.divisionNameEng;
-    const posts = await Product.find({
-      cityName: city,
-      areaName: area,
-      type: type,
-      districts: districts,
-      division: division,
-    }).sort({ _id: -1 });
+    let posts;
+    if (limit) {
+      posts = await Product.find({
+        cityName: city,
+        areaName: area,
+        type: type,
+        districts: districts,
+        division: division,
+      })
+        .sort({ _id: -1 })
+        .limit(Number(limit)); // Convert the 'limit' value to a number
+    } else {
+      posts = await Product.find({
+        cityName: city,
+        areaName: area,
+        type: type,
+        districts: districts,
+        division: division,
+      }).sort({ _id: -1 });
+    }
     const projection = posts.map(
       ({
         _id,
@@ -123,7 +137,7 @@ exports.filterPost = async (req, res) => {
         university,
       })
     );
-
+ 
     res.status(200).json({
       message: "success",
       posts: projection,
