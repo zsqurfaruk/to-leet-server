@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const usersController = require("../controllers/usersController");
 const verifyToken = require("../middleWare/verifyToken");
-const authorization = require("../middleWare/authorization");
 
 router
   .route("/signup")
