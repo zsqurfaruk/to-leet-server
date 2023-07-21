@@ -51,12 +51,7 @@ exports.getProducts = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
   try {
-    //  create method
-    // const result = Product.create(req.body)
-    // save method
     const postProduct = new Product(req.body);
-
-    // akhane chaile j kono condition dewya jabe
     const result = await postProduct.save();
     res.status(200).json({
       message: "success",
@@ -71,33 +66,42 @@ exports.createProduct = async (req, res) => {
 
 exports.filterPost = async (req, res) => {
   try {
-    // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
     const limit = req.query.limit
-    const city = req.body.cityName;
+    const  city  = req.body.cityName;
     const area = req.body.homePopularAreaName;
-    const type = req.body.filterModalValue;
+    const filterType = req.body.filterModalValue;
     const districts = req.body.districtsName;
     const division = req.body.divisionNameEng;
+   
     let posts;
     if (limit) {
       posts = await Product.find({
         cityName: city,
         areaName: area,
-        type: type,
+        type: filterType,
         districts: districts,
         division: division,
       })
         .sort({ _id: -1 })
-        .limit(Number(limit)); // Convert the 'limit' value to a number
+        .limit(Number(limit));  
     } else {
       posts = await Product.find({
-        cityName: city,
-        areaName: area,
-        type: type,
-        districts: districts,
-        division: division,
+        $or: [
+          {
+            $or: [
+              { "cityName.eng": city.eng },
+              { "division.eng": city.eng },
+            ],
+            $or: [
+              { "areaName.eng": area.eng },
+              { "districts.eng": area.eng },
+            ],
+            "type.eng": filterType.eng,
+          },
+        ],
       }).sort({ _id: -1 });
     }
+    
     const projection = posts.map(
       ({
         _id,
