@@ -1,8 +1,8 @@
+const { encryptFunction } = require("../Encryption/encryption");
 const Product = require("../models/Products");
 
 exports.getProducts = async (req, res) => {
   try {
-    // const products = await Product.where("name").equals(/\w/); {same name ar sob pabe }
     const products = await Product.find({}).sort({ _id: -1 });
     const projection = products.map(
       ({
@@ -43,7 +43,9 @@ exports.getProducts = async (req, res) => {
         university,
       })
     );
-    res.send(projection);
+    const encryptedData = encryptFunction(JSON.stringify(projection)); // Convert to JSON string before encrypting
+
+    res.send(encryptedData);
   } catch (error) {
     res.send("Failed request");
   }
@@ -141,10 +143,10 @@ exports.filterPost = async (req, res) => {
         university,
       })
     );
- 
+    const encryptedData = encryptFunction(JSON.stringify(projection)); 
     res.status(200).json({
       message: "success",
-      posts: projection,
+      posts: encryptedData,
     });
   } catch (error) {
     res.send("Failed request");
@@ -196,8 +198,8 @@ exports.getSpecificTypeProducts = async (req, res) => {
         university,
       })
     );
-
-    res.send(projection);
+    const encryptedData = encryptFunction(JSON.stringify(projection)); 
+    res.send(encryptedData);
   } catch (error) {
     res.send("Failed request");
   }
@@ -221,8 +223,8 @@ exports.getProfile = async (req, res) => {
         _id: -1,
       });
     }
-
-    res.send(user);
+    const encryptedUserData = encryptFunction(JSON.stringify(user));
+    res.send(encryptedUserData);
   } catch (error) {
     res.send("No data found");
   }
@@ -233,7 +235,8 @@ exports.getProductDetails = async (req, res) => {
     const id = req.params.id;
     const productDetails = await Product.findOne({ _id: id });
     const { name, email, ...others } = productDetails.toObject();
-    res.send(others);
+    const encryptedData = encryptFunction(JSON.stringify(others));
+    res.send(encryptedData);
   } catch (error) {
     res.send("Failed request");
   }

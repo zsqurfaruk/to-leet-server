@@ -1,3 +1,4 @@
+const { encryptFunction } = require("../Encryption/encryption");
 const User = require("../models/Users");
 const { generateToken } = require("../utils/token");
 const bcrypt = require("bcryptjs");
@@ -6,7 +7,8 @@ exports.signupGet = async (req, res) => {
   try {
     const getUsers = await User.find({});
     const projection = getUsers.map(({ QuickVara }) => ({ QuickVara }));
-    res.send(projection);
+    const encryptedUser = encryptFunction(JSON.stringify(projection)); // Convert to JSON string before encrypting
+    res.send(encryptedUser);
   } catch (error) {
     res.send("Internal server error");
   }
@@ -148,11 +150,8 @@ exports.getMe = async (req, res) => {
       ...others
     } = user.toObject();
     const newUser = others;
-    // res.status(200).json({
-    //   status: "success",
-    //   data: newUser,
-    // });
-    res.send(newUser);
+    const encryptedNewUser = encryptFunction(JSON.stringify(newUser)); 
+    res.send(encryptedNewUser);
   } catch (error) {
     res.send("User not found, Please log in first");
   }
