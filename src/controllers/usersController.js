@@ -6,13 +6,15 @@ const bcrypt = require("bcryptjs");
 exports.signupGet = async (req, res) => {
   try {
     const getUsers = await User.find({});
-    const projection = getUsers.map(({ QuickVara }) => ({ QuickVara }));
+    const projection = getUsers.map(({ email,QuickVara, profileImage, role}) => ({email, QuickVara,profileImage, role}));
     const encryptedUser = encryptFunction(JSON.stringify(projection)); // Convert to JSON string before encrypting
     res.send(encryptedUser);
   } catch (error) {
     res.send("Internal server error");
   }
 };
+
+
 exports.signupPost = async (req, res) => {
   try {
     const user = new User(req.body);
@@ -165,3 +167,47 @@ function securePass(password) {
     res.status("User not found, Please log in first");
   }
 }
+ 
+exports.updateUser = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const { profileImage } = req.body; // Destructure the profileImage property from the request body
+//  console.log(email, req.body)
+    // Find and update the user's profile image by email
+    const updateUser = await User.updateOne(
+      { email: email },
+      { $set: { profileImage: profileImage } }, // Update the profileImage field
+      { runValidators: true }
+    );
+
+    if (updateUser.nModified === 0) {
+      // Handle the case where no user was found with the specified email
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      updateUser,
+      message: "Profile image updated successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const deleteUser = await User.deleteOne({ email: email});
+    console.log(email, deleteUser)
+    res.status(200).json({
+      message: "success",
+    });
+  } catch (error) {
+    res.send("Internal server error");
+  }
+};

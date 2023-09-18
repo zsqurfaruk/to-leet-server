@@ -10,6 +10,10 @@ router
 
 router.route("/reset/email").post(usersController.resetPass);
 router.route("/signIn").post(usersController.signInPost);
+router.route("/update/:email").put(usersController.updateUser);
+router
+  .route("/:email")
+  .delete(usersController.deleteUser);
 router.post("/me", verifyToken, usersController.getMe);
 
 module.exports = router;

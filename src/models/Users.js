@@ -62,6 +62,7 @@ const usersSchema = new mongoose.Schema(
 
     },
     QuickVara: String,
+    profileImage:String,
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
