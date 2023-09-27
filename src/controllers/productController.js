@@ -234,7 +234,7 @@ exports.getProductDetails = async (req, res) => {
   try {
     const id = req.params.id;
     const productDetails = await Product.findOne({ _id: id });
-    const { name, email, ...others } = productDetails.toObject();
+    const {...others } = productDetails.toObject();
     const encryptedData = encryptFunction(JSON.stringify(others));
     res.send(encryptedData);
   } catch (error) {

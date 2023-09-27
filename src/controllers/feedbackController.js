@@ -6,8 +6,8 @@ const Feedback = require("../models/Feedback");
 
 exports.getFeedback = async (req, res) => {
   try {
-    const feedbacks = await Feedback.find({});
-    // const feedbacks = encryptFunction(JSON.stringify(getFeeds));
+    const getFeeds = await Feedback.find({});
+    const feedbacks = encryptFunction(JSON.stringify(getFeeds));
       res.status(200).json({
         message: "success",
         feedbacks,
@@ -20,7 +20,6 @@ exports.createFeedback = async (req, res) => {
     try {
       const postFeedback = new Feedback(req.body);
       const result = await postFeedback.save();
-      console.log(result)
       res.status(200).json({
         message: "success",
         result,
@@ -35,7 +34,6 @@ exports.createFeedback = async (req, res) => {
     try {
       const id = req.params.id;
       const deleteFeedback = await Feedback.deleteOne({ _id: id});
-      console.log(id, deleteFeedback)
       res.status(200).json({
         message: "success",
       });

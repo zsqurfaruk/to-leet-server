@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 exports.signupGet = async (req, res) => {
   try {
     const getUsers = await User.find({});
-    const projection = getUsers.map(({ email,QuickVara, profileImage, role}) => ({email, QuickVara,profileImage, role}));
+    const projection = getUsers.map(({ _id,email,QuickVara, profileImage, role}) => ({_id, email, QuickVara,profileImage, role}));
     const encryptedUser = encryptFunction(JSON.stringify(projection)); // Convert to JSON string before encrypting
     res.send(encryptedUser);
   } catch (error) {
@@ -171,8 +171,7 @@ function securePass(password) {
 exports.updateUser = async (req, res) => {
   try {
     const email = req.params.email;
-    const { profileImage } = req.body; // Destructure the profileImage property from the request body
-//  console.log(email, req.body)
+    const { profileImage } = req.body; // Destructure the profileImage property from the  
     // Find and update the user's profile image by email
     const updateUser = await User.updateOne(
       { email: email },
@@ -192,7 +191,6 @@ exports.updateUser = async (req, res) => {
       message: "Profile image updated successfully",
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       message: "Internal server error",
     });
@@ -203,7 +201,6 @@ exports.deleteUser = async (req, res) => {
   try {
     const email = req.params.email;
     const deleteUser = await User.deleteOne({ email: email});
-    console.log(email, deleteUser)
     res.status(200).json({
       message: "success",
     });
